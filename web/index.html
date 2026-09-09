@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GameTrack</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar" id="sidebar">
+  <div class="brand"><div class="brand-icon">🎮</div><div><b>GameTrack</b><small>Game time tracker</small></div></div>
+  <nav>
+    <button class="nav active" data-page="dashboard">⌂ <span>Accueil</span></button>
+    <button class="nav" data-page="games">🎮 <span>Jeux</span></button>
+    <button class="nav" data-page="stats">◒ <span>Statistiques</span></button>
+    <button class="nav" data-page="sessions">◷ <span>Sessions</span></button>
+    <button class="nav" data-page="settings">⚙ <span>Paramètres</span></button>
+  </nav>
+  <div class="side-status"><i></i><div><b>Surveillance active</b><small>Détection automatique</small></div></div>
+</aside>
+
+<main class="main">
+<header><button id="menu" class="icon mobile">☰</button><span id="crumb">Accueil</span><div class="live" id="live">● Aucun jeu en cours</div></header>
+<section id="dashboard" class="page active">
+  <div class="hero"><div><label>TON ESPACE GAMING</label><h1>Bonjour 👋</h1><p>Voici un aperçu de ton temps de jeu.</p></div><div id="current" class="current hidden"></div></div>
+  <div class="cards">
+    <article><small>Temps total</small><b id="total">0h 00m</b><em>Depuis le début du suivi</em></article>
+    <article><small>Aujourd'hui</small><b id="today">0h 00m</b><em>Temps enregistré</em></article>
+    <article><small>Jeux suivis</small><b id="count">0</b><em>Jeux personnalisés inclus</em></article>
+    <article><small>Sessions</small><b id="sessions">0</b><em>Parties enregistrées</em></article>
+  </div>
+  <div class="columns">
+    <article class="panel"><div class="panel-head"><div><h2>Temps de jeu</h2><p>7 derniers jours</p></div></div><div class="chart"><canvas id="chart"></canvas></div></article>
+    <article class="panel"><div class="panel-head"><div><h2>Jeux favoris</h2><p>Par temps joué</p></div></div><div id="top"></div></article>
+  </div>
+  <article class="panel"><div class="panel-head"><div><h2>Ajouter un jeu</h2><p>GameTrack peut suivre n'importe quel jeu Windows.</p></div><button class="primary" onclick="openAdd()">+ Ajouter un jeu</button></div></article>
+</section>
+
+<section id="games" class="page">
+  <div class="title"><div><label>BIBLIOTHÈQUE</label><h1>Mes jeux</h1><p>Tes jeux suivis automatiquement.</p></div><div class="search">⌕ <input id="search" placeholder="Rechercher..."></div></div>
+  <div id="gamesGrid" class="game-grid"></div>
+</section>
+
+<section id="stats" class="page">
+  <div class="title"><div><label>ANALYSE</label><h1>Statistiques</h1><p>Vue globale de ton activité.</p></div></div>
+  <div class="cards"><article><small>Jeu le plus joué</small><b id="best">—</b><em>Par temps total</em></article><article><small>Temps total</small><b id="stotal">0h</b><em>Sessions terminées</em></article></div>
+  <article class="panel"><div class="panel-head"><div><h2>Répartition des jeux</h2><p>Temps cumulé</p></div></div><div class="chart large"><canvas id="chart2"></canvas></div></article>
+</section>
+
+<section id="sessions" class="page">
+  <div class="title"><div><label>HISTORIQUE</label><h1>Sessions</h1><p>Les sessions sont enregistrées automatiquement.</p></div></div>
+  <article class="panel"><div id="sessionList" class="session-list">Les sessions détaillées apparaîtront ici.</div></article>
+</section>
+
+<section id="settings" class="page">
+  <div class="title"><div><label>CONFIGURATION</label><h1>Paramètres</h1><p>Configuration du tracker.</p></div></div>
+  <article class="panel settings"><div><b>Surveillance automatique</b><p>GameTrack vérifie les processus toutes les quelques secondes.</p><span class="switch on"></span></article>
+  <article class="panel settings"><div><b>Données locales</b><p>Les statistiques sont conservées dans une base SQLite sur ton PC.</p></article>
+</section>
+</main>
+</div>
+
+<div class="modal hidden" id="addModal">
+<div class="modal-box">
+  <button class="close" onclick="closeAdd()">×</button>
+  <label>AJOUTER UN JEU</label><h2>Créer un suivi personnalisé</h2>
+  <div class="steps">
+    <div class="step active" id="step1"><b>1</b><span>Lance ton jeu</span><small>Le jeu doit être ouvert avant de continuer.</small><button class="primary full" onclick="loadProcesses()">J'ai lancé le jeu</button></div>
+    <div class="step hidden" id="step2"><b>2</b><span>Choisis le processus</span><small>GameTrack affiche les programmes actuellement ouverts.</small><select id="process"></select><input id="gameName" placeholder="Nom affiché du jeu"><select id="gameIcon"><option>🎮</option><option>⛏️</option><option>🚗</option><option>🎯</option><option>⭐</option><option>🟥</option></select><button class="primary full" onclick="saveGame()">Ajouter au tracker</button></div>
+  </div>
+  <p id="error" class="error"></p>
+</div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
+
