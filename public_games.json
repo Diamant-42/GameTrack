@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "games": [
+    {
+      "slug": "roblox",
+      "name": "Roblox",
+      "process_name": "RobloxPlayerBeta.exe",
+      "icon": "🎮",
+      "platform": "Windows",
+      "genre": "",
+      "description": "",
+      "cover_url": "",
+      "updated_at": "2026-09-09T14:42:25"
+    }
+  ]
+}
+
